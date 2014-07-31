@@ -64,8 +64,8 @@ class Mysqldump
 
         // Skip table
         foreach($this->table_skip as $skip)
-            if(array_key_exists($skip, $this->table))
-                unset($this->table[$skip]);
+            if($key = array_search($skip, $tables))
+                unset($tables[$key]);
     }
 
 

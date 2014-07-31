@@ -4,6 +4,6 @@ use Illuminate\Support\Facades\Facade;
 
 class Mysqldump extends Facade {
 
-    public function getFacadeAccessor() { return 'mysqldump'; }
+    protected static function getFacadeAccessor() { return 'mysqldump'; }
 
 }
