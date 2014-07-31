@@ -1,16 +1,24 @@
 {
-	"name": "dg/mysql-dump",
-	"description": "MySQL database dump.",
-	"keywords": ["mysql"],
-	"homepage": "https://github.com/dg/MySQL-dump",
+	"name": "nurmanhabib/mysqldump",
+	"description": "MySQL database dump. Forked from https://github.com/dg/MySQL-dump",
+	"keywords": ["mysql", "mysqldump"],
 	"license": ["BSD-3-Clause"],
 	"authors": [
 		{
 			"name": "David Grudl",
-			"homepage": "http://davidgrudl.com"
-		}
+			"homepage": "http://davidgrudl.com",
+            "role": "Owner"
+		},
+        {
+            "name": "Habib Nurrahman",
+            "email": "nurmanhabib@gmail.com",
+            "homepage": "http://habibnurrahman.com",
+            "role": "Developer"
+        }
 	],
 	"autoload": {
-		"classmap": ["src/"]
+		"psr-4": {
+			"Nurmanhabib\\Mysqldump\\": "src/"
+		}
 	}
 }
