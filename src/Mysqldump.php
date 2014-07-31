@@ -64,8 +64,8 @@ class Mysqldump
 
         // Skip table
         foreach($this->table_skip as $skip)
-            if($key = array_search($skip, $tables))
-                unset($tables[$key]);
+            if($key = array_search($skip, $this->table))
+                unset($this->table[$key]);
     }
 
 
@@ -109,9 +109,14 @@ class Mysqldump
             $tables = $this->table;
         }
 
+        // Remove table skip if specify
+        foreach($this->table as $include)
+            if(($key = array_search($include, $this->table_skip)) !== false)
+                unset($this->table_skip[$key]);
+
         // Skip table
         foreach($this->table_skip as $skip)
-            if($key = array_search($skip, $tables))
+            if(($key = array_search($skip, $tables)) !== false)
                 unset($tables[$key]);
 
         $this->connection->query('LOCK TABLES `' . implode('` READ, `', $tables) . '` READ');
