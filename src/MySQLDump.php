@@ -208,7 +208,7 @@ class MySQLDump
 	}
 
 	/**
-	 * Specify table dump to logical file.
+	 * Specify table name dump to logical file.
 	 * @param  mixed
 	 * @return MySQLDump
 	 */
