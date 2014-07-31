@@ -111,8 +111,8 @@ class Mysqldump
 
 		// Skip table
 		foreach($this->table_skip as $skip)
-			if(array_key_exists($skip, $tables))
-				unset($tables[$skip]);
+			if($key = array_search($skip, $tables))
+				unset($tables[$key]);
 
 		$this->connection->query('LOCK TABLES `' . implode('` READ, `', $tables) . '` READ');
 
@@ -260,11 +260,7 @@ class Mysqldump
 			$this->table_skip	= $table;
 		else
 			$this->table_skip[]	= $table;
-
-		// Skip table
-		if(array_key_exists($table, $this->table))
-			unset($this->table[$skip]);
-
+		
 		return $this;
 	}
 
