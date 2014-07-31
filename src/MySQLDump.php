@@ -27,8 +27,8 @@ class Mysqldump
 		'*' => self::ALL,
 	);
 
-	public $table = array();
-	public $driver	= '';
+	public $table		= array();
+	public $table_skip	= array('sessions', 'migrations');
 
 	/** @var mysqli */
 	private $connection;
@@ -61,6 +61,11 @@ class Mysqldump
 		} elseif (!$connection->set_charset('utf8')) { // was added in MySQL 5.0.7 and PHP 5.0.5, fixed in PHP 5.1.5)
 			throw new Exception($connection->error);
 		}
+
+		// Skip table
+		foreach($this->table_skip as $skip)
+			if(array_key_exists($skip, $this->table))
+				unset($this->table[$skip]);
 	}
 
 
@@ -235,6 +240,21 @@ class Mysqldump
 			$this->table	= $table;
 		else
 			$this->table[]	= $table;
+
+		return $this;
+	}
+
+	/**
+	 * Specify table name dump to logical file.
+	 * @param  mixed
+	 * @return MySQLDump
+	 */
+	public function tableSkip($table = array())
+	{
+		if(is_array($table))
+			$this->table_skip	= $table;
+		else
+			$this->table_skip[]	= $table;
 
 		return $this;
 	}
