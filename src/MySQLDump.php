@@ -1,4 +1,7 @@
-<?php
+<?php namespace Nurmanhabib\Mysqldump;
+
+use Config;
+use mysqli;
 
 /**
  * MySQL database dump.
@@ -8,7 +11,7 @@
  * @license    New BSD License
  * @version    1.0
  */
-class MySQLDump
+class Mysqldump
 {
 	const MAX_SQL_SIZE = 1e6;
 
@@ -25,6 +28,7 @@ class MySQLDump
 	);
 
 	public $table = array();
+	public $driver	= '';
 
 	/** @var mysqli */
 	private $connection;
@@ -34,8 +38,21 @@ class MySQLDump
 	 * Connects to database.
 	 * @param  mysqli connection
 	 */
-	public function __construct(mysqli $connection)
+	public function __construct(mysqli $connection = null)
 	{
+		if($connection == null)
+		{
+			// Get configuration database
+			$connections	= Config::get('database.connections.mysql');
+			
+			$host			= $connections['host'];
+			$username		= $connections['username'];
+			$password		= $connections['password'];
+			$database		= $connections['database'];
+
+			$connection		= new mysqli($host, $username, $password, $database);
+		}
+
 		$this->connection = $connection;
 
 		if ($connection->connect_errno) {
