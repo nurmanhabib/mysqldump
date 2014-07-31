@@ -60,22 +60,7 @@ class MySQLDump
 		}
 		$this->write($handle);
 	}
-
-	/**
-	 * Writes dump to logical file.
-	 * @param  array
-	 * @return MySQLDump
-	 */
-	public function table($table = array())
-	{
-		if(is_array($table))
-			$this->table	= $table;
-		else
-			$this->table[]	= $table;
-
-		return $this;
-	}
-
+	
 
 	/**
 	 * Writes dump to logical file.
@@ -90,7 +75,7 @@ class MySQLDump
 			throw new Exception('Argument must be stream resource.');
 		}
 
-		if(empty($this->table)) {
+		if(empty($this->table) || $this->table == '*') {
 			$tables = array();
 
 			$res = $this->connection->query('SHOW TABLES');
@@ -220,6 +205,21 @@ class MySQLDump
 	private function delimite($s)
 	{
 		return '`' . str_replace('`', '``', $s) . '`';
+	}
+
+	/**
+	 * Specify table name dump to logical file.
+	 * @param  mixed
+	 * @return MySQLDump
+	 */
+	public function table($table = array())
+	{
+		if(is_array($table))
+			$this->table	= $table;
+		else
+			$this->table[]	= $table;
+
+		return $this;
 	}
 
 }
