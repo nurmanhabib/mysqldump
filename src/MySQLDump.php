@@ -256,6 +256,10 @@ class Mysqldump
 		else
 			$this->table_skip[]	= $table;
 
+		// Skip table
+		if(array_key_exists($table, $this->table))
+			unset($this->table[$skip]);
+
 		return $this;
 	}
 
