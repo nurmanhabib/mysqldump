@@ -109,6 +109,11 @@ class Mysqldump
 			$tables = $this->table;
 		}
 
+		// Skip table
+		foreach($this->table_skip as $skip)
+			if(array_key_exists($skip, $tables))
+				unset($tables[$skip]);
+
 		$this->connection->query('LOCK TABLES `' . implode('` READ, `', $tables) . '` READ');
 
 		$db = $this->connection->query('SELECT DATABASE()')->fetch_row();
