@@ -24,6 +24,8 @@ class MySQLDump
 		'*' => self::ALL,
 	);
 
+	public $table = array();
+
 	/** @var mysqli */
 	private $connection;
 
@@ -59,6 +61,21 @@ class MySQLDump
 		$this->write($handle);
 	}
 
+	/**
+	 * Writes dump to logical file.
+	 * @param  array
+	 * @return MySQLDump
+	 */
+	public function table($table = array())
+	{
+		if(is_array($table))
+			$this->table	= $table;
+		else
+			$this->table[]	= $table;
+
+		return $this;
+	}
+
 
 	/**
 	 * Writes dump to logical file.
@@ -73,13 +90,17 @@ class MySQLDump
 			throw new Exception('Argument must be stream resource.');
 		}
 
-		$tables = array();
+		if(empty($this->table)) {
+			$tables = array();
 
-		$res = $this->connection->query('SHOW TABLES');
-		while ($row = $res->fetch_row()) {
-			$tables[] = $row[0];
+			$res = $this->connection->query('SHOW TABLES');
+			while ($row = $res->fetch_row()) {
+				$tables[] = $row[0];
+			}
+			$res->close();
+		} else {
+			$tables = $this->table;
 		}
-		$res->close();
 
 		$this->connection->query('LOCK TABLES `' . implode('` READ, `', $tables) . '` READ');
 
