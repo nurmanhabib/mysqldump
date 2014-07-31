@@ -1,6 +1,8 @@
 MySQL Dump Utility
 ==================
 
+Forked from https://github.com/dg/MySQL-dump
+
 This is a backup utility used to dump a database for backup or transfer to another MySQL server.
 The dump typically contains SQL statements to create the table, populate it, or both.
 
